@@ -2,10 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp1.1</TargetFramework>
-  </PropertyGroup>
-
-  <PropertyGroup>
     <PackageTargetFallback>$(PackageTargetFallback);portable-net45+win8+wp8+wpa81;</PackageTargetFallback>
+    <PostBuildEvent>npm run build</PostBuildEvent>
   </PropertyGroup>
 
   <ItemGroup>
@@ -29,5 +27,9 @@
     <Folder Include="wwwroot\fonts\" />
     <Folder Include="wwwroot\images\" />
   </ItemGroup>
+
+  <PropertyGroup>
+    <TypeScriptCompileBlock>True</TypeScriptCompileBlock>
+  </PropertyGroup>
 
 </Project>

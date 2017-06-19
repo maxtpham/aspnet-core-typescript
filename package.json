@@ -1,0 +1,28 @@
+{
+  "name": "aspnet-core-typescript",
+  "version": "1.0.0",
+  "description": "ASP.NET Core MVC template for Visual Studio 2017 with WebPack bundle for JavaScript & CSS Stylesheet by using npm & TypeScript",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "@types/bootstrap": "^3.3.34",
+    "@types/jquery": "^2.0.41",
+    "bootstrap": "^3.3.7",
+    "css-loader": "^0.28.4",
+    "extract-text-webpack-plugin": "^2.1.2",
+    "file-loader": "^0.11.2",
+    "jquery": "^3.2.1",
+    "style-loader": "^0.18.2",
+    "ts-loader": "^2.0.3",
+    "typescript": "^2.2.2",
+    "webpack": "^2.3.3"
+  },
+  "scripts": {
+    "build": "webpack"
+  },
+  "-vs-binding": {
+    "BeforeBuild": [
+      "build"
+    ]
+  }
+}

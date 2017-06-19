@@ -4,9 +4,9 @@ ASP.NET Core MVC template for Visual Studio 2017 with WebPack bundle for JavaScr
 # Supported
 - Visual Studio 2017 Community
 - WebPack 2.3.3
+- TypeScript 2.2.2
 - JQuery 3.2.1
 - Bootstrap 3.3.34
-- TypeScript 2.2.2
 
 # Output Structure
 Clean & Simple project output structure to distribute to server
@@ -70,6 +70,121 @@ services.Configure<Microsoft.AspNetCore.Mvc.Razor.RazorViewEngineOptions>(option
 - **appsettings.json**: default generated ASP.NET Core
 7. Run **npm** commands at Project root
 ```bash
+# Initialize project with default npm settings
+npm init -y
+# Install & restore npm module for the project
 npm install
-
+# Install WebPack for transpiling TypeScript & buldle TS/JS/CSS
+npm install --save-dev webpack@2.3.3
+# Setup TypeScript by npm
+npm install --save-dev typescript@2.2.2 ts-loader@2.0.3
+# Install CSS Loader
+npm install --save-dev extract-text-webpack-plugin@2.1.2 css-loader@0.28.4 style-loader@0.18.2 file-loader@0.11.2
+# Install JQuery & BootStrap w/ typing (auto-completion for TypeScript)
+npm install --save-dev jquery@3.2.1 @types/jquery@2.0.41 bootstrap@3.3.7 @types/bootstrap@3.3.34
 ```
+8. Add new **TypeScript JSON Configuration File** tsconfig.json in VS2017 at project root
+```json
+{
+  "compilerOptions": {
+    "noImplicitAny": false,
+    "noEmitOnError": true,
+    "removeComments": false,
+    "sourceMap": false,
+    "target": "es5",
+    "outDir": "./obj/ts/",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "lib": [ "dom", "es5", "es6" ]
+  },
+  "exclude": [
+    "node_modules",
+    "wwwroot"
+  ]
+}
+```
+9. Add webpack.config.js at project root & configure:
+- TypeScript transpiler
+- JavaScript bundle
+- Stylesheet bundle
+- File loader for fonts & images
+```js
+var path = require('path');
+var webpack = require('webpack');
+var ExtractTextPlugin = require("extract-text-webpack-plugin");
+
+module.exports = {
+    entry: {
+        app: [
+            './scripts/app.ts',
+            './styles/app.css',
+            './node_modules/bootstrap/dist/css/bootstrap.css',
+            './node_modules/bootstrap/dist/css/bootstrap-theme.css'
+        ]
+    },
+    output: {
+        filename: 'bundle.js',
+        path: path.resolve(__dirname, 'wwwroot/')
+    },
+    module: {
+        rules: [
+            {
+                test: /\.tsx?$/,
+                loader: 'ts-loader',
+                exclude: /node_modules/,
+            },
+            {
+                test: /\.css$/,
+                use: ExtractTextPlugin.extract({
+                    fallback: "style-loader",
+                    use: "css-loader"
+                })
+            },
+            {
+                test: /\.(eot|svg|ttf|woff|woff2)$/,
+                loader: 'file-loader?name=fonts/[name].[ext]'
+            },
+            {
+                test: /\.(jpe?g|png|gif)$/,
+                loader: 'file-loader?name=images/[name].[ext]'
+            }
+        ]
+    },
+    resolve: {
+        extensions: [".tsx", ".ts", ".js"]
+    },
+    plugins: [
+        new ExtractTextPlugin("bundle.css"),
+    ]
+};
+```
+10. Update npm config **package.json** to run webpack build
+```json
+"scripts": {
+    "build": "webpack"
+},
+"-vs-binding": {
+    "BeforeBuild": [
+        "build"
+    ]
+}
+```
+11. Configure VS2017 project with **Post-build event command line**
+```bash
+npm run build
+```
+12. Edit directly csproj Project file to turn off default VS2017 TypeScript Compiler
+```xml
+<PropertyGroup>
+    <TypeScriptCompileBlock>True</TypeScriptCompileBlock>
+</PropertyGroup>
+```
+13. Edit app.ts
+```typescript
+import * as $ from "jquery"
+
+$(document).ready(() => {
+    $("<pre>").text("ASP.NET Core MVC TypeScript/WebPack template loaded").appendTo(document.body)
+});
+```
+14. Build & Run Project in VS2017
