@@ -20,7 +20,7 @@ Clean & Simple ASP.NET Core MVC project structure for starting a new project in 
 ## 1. ASP.NET Core
 - **aspnet\Controllers**: only simple Home Index for the whole project
 - **aspnet\Views**: only simple Index.cshtml reference to WebPack bundle resources
-- **aspnet\Startup.cs**: default ASP.NET Core MVC template files
+- **aspnet\Startup.cs**: default ASP.NET Core MVC template files (with relocation of /Views/ to /aspnet/Views/)
 - **aspnet\Program.cs**: default ASP.NET Core MVC template files
 ## 2. TypeScripts & Stylesheets
 - **scripts**: app.ts & place to push all of your custom TypeScripts here (must be registered in webpack.config)
