@@ -1,1 +1,1 @@
-﻿import * as $ from "jquery"
+﻿

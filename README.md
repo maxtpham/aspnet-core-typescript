@@ -31,3 +31,45 @@ Clean & Simple ASP.NET Core MVC project structure for starting a new project in 
 - **package.json**: refer to default npm packages
 - **tsconfig.json**: WebPack TypeScipt transpiler configurations with **ES5** output & **DOM**/**ES5**/**ES6** typing libraries supports
 - **webpack.config.js**: simple WebPack for above simple & clean Output
+
+# BONUS: recreate template from scratch
+1. Create VS2017 ASP.NET Core MVC template
+2. Relocate Controllers, Views, Startup.cs & Project.cs to aspnet sub-folder
+3. Add class **AspnetViewLocationExpander**
+```csharp
+public class AspnetViewLocationExpander : Microsoft.AspNetCore.Mvc.Razor.IViewLocationExpander
+{
+    public IEnumerable<string> ExpandViewLocations(Microsoft.AspNetCore.Mvc.Razor.ViewLocationExpanderContext context, IEnumerable<string> viewLocations)
+    {
+        yield return "/aspnet/Views/{1}/{0}.cshtml";
+        yield return "/aspnet/Views/Shared/{0}.cshtml";
+    }
+
+    public void PopulateValues(Microsoft.AspNetCore.Mvc.Razor.ViewLocationExpanderContext context)
+    {
+    }
+}
+```
+4. Relocate /Views to /aspnet/Views by **ConfigureServices** at **Startup**
+```csharp
+services.Configure<Microsoft.AspNetCore.Mvc.Razor.RazorViewEngineOptions>(options => {
+    options.ViewLocationExpanders.Add(new AspnetViewLocationExpander());
+});
+```
+5. Re-create wwwroot folder with:
+- **wwwroot\fonts**: empty folder
+- **wwwroot\images**: empty folder
+- **wwwroot\bundle.css**: blank file
+- **wwwroot\bundle.js**: blank file
+- **wwwroot\favicon.ico**
+6. Re-create project root with:
+- **fonts**: empty folder
+- **images**: empty folder
+- **scripts\app.ts**: blank application entry TypeScript
+- **styles\bundle.css**: blank global CSS Stylesheet
+- **appsettings.json**: default generated ASP.NET Core
+7. Run **npm** commands at Project root
+```bash
+npm install
+
+```
