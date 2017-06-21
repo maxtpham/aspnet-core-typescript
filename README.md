@@ -68,7 +68,7 @@ services.Configure<Microsoft.AspNetCore.Mvc.Razor.RazorViewEngineOptions>(option
 - **scripts\app.ts**: blank application entry TypeScript
 - **styles\bundle.css**: blank global CSS Stylesheet
 - **appsettings.json**: default generated ASP.NET Core
-7. Run **npm** commands at Project root
+7. Run the following **npm** commands at Project root
 ```bash
 # Initialize project with default npm settings
 npm init -y
